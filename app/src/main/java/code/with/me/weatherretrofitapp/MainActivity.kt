@@ -1,5 +1,6 @@
 package code.with.me.weatherretrofitapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import code.with.me.weatherretrofitapp.databinding.ActivityMainBinding
-import com.squareup.picasso.Picasso
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     var getdata: String = ""
     val weatherService = WeatherService.create()
     val weatherRepository = WeatherRepository(weatherService)
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,13 +34,22 @@ class MainActivity : AppCompatActivity() {
                 TempC.isVisible = false
                 TextTitle.isVisible = false
                 lastUpdateTitle.isVisible = false
-                ImageTitle.isVisible = false
+//                ImageTitle.isVisible = false
 
                 townTitle.text = viewModel.town.value
 
+                var date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                Log.d("hours", date.toString())
+                when (date) {
+                    0,1,2,3,4,5,6 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
+                    7,8,9,10,11,12 -> binding.mainactivity.setBackgroundResource(R.drawable.day_forest)
+                    13,14,15,16,17,18 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
+                    19,20,21,22,23 -> binding.mainactivity.setBackgroundResource(R.drawable.night_forest)
+                }
+
 
                 viewModel.tempC.observe(this@MainActivity, Observer { temp_c ->
-                    binding.TempC.text = temp_c.toString()
+                    binding.TempC.text = "$temp_c℃"
                     TempC.isVisible = true
                 })
                 viewModel.textTitle.observe(this@MainActivity, Observer { textTitle ->
@@ -46,18 +57,19 @@ class MainActivity : AppCompatActivity() {
                     TextTitle.isVisible = true
                 })
                 viewModel.lastUpdateTitleData.observe(this@MainActivity, Observer { lastUpdateTitlee ->
-                    binding.lastUpdateTitle.text = ("Последнее обновление:\n$lastUpdateTitlee")
+                    binding.lastUpdateTitle.text = ("Последнее обновление погоды:\n$lastUpdateTitlee")
                     lastUpdateTitle.isVisible = true
                 })
                 viewModel.feelsLikeTitle.observe(this@MainActivity, Observer { feelsLikeTitle ->
-                    binding.feelslikeTitle.text = ("По ощущениям:\n$feelsLikeTitle")
+                    binding.feelslikeTitle.text = ("По ощущениям:\n$feelsLikeTitle℃")
                     feelslikeTitle.isVisible = true
                 })
-                viewModel.urlImage.observe(this@MainActivity, Observer { urlImage ->
-                    binding.ImageTitle.isVisible = true
-                    val imageUrl = ("https:$urlImage")
-                    Picasso.get().load(imageUrl).into(binding.ImageTitle)
-                })
+                //выпилил, пушто иконки были маленького размера
+//                viewModel.urlImage.observe(this@MainActivity, Observer { urlImage ->
+//                    binding.ImageTitle.isVisible = true
+//                    val imageUrl = ("https:$urlImage")
+//                    Picasso.get().load(imageUrl).into(binding.ImageTitle)
+//                })
             }
 
         })

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/backgr1">
+    android:background="@drawable/backgr1"
+    android:id="@+id/mainactivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,10 +39,10 @@
 
         <TextView
             android:id="@+id/Temp_c"
-            android:layout_width="194dp"
-            android:layout_height="62dp"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="200dp"
+            android:layout_height="61dp"
+            android:layout_marginStart="104dp"
+            android:layout_marginTop="24dp"
             android:text="NOTEXT"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
@@ -86,6 +87,7 @@
 
         <TextView
             android:id="@+id/townTitle"
+            android:gravity="center"
             android:layout_width="425dp"
             android:layout_height="142dp"
             android:layout_marginTop="32dp"
@@ -99,17 +101,6 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ImageTitle"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="44dp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/Temp_c"
-            app:layout_constraintTop_toBottomOf="@+id/townTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
