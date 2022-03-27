@@ -3,6 +3,7 @@ package code.with.me.weatherretrofitapp
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import code.with.me.weatherretrofitapp.Items.WeatherItem
 import kotlinx.coroutines.Job
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,7 +63,7 @@ class WeatherViewModel(private val repo: WeatherRepository) : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<WeatherItem>, t: Throwable) {
-                    Log.d("response", "вызвался onFailure")
+                    Log.d("responseWthr", "вызвался onFailure")
                 }
             })
         }

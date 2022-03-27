@@ -1,4 +1,4 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.Items
 
 import com.google.gson.annotations.SerializedName
 

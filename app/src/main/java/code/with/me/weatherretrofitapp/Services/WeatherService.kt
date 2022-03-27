@@ -1,5 +1,6 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.Services
 
+import code.with.me.weatherretrofitapp.Items.WeatherItem
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
