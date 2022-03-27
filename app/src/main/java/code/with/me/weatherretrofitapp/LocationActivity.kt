@@ -12,8 +12,8 @@ import java.util.*
 
 class LocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLocationBinding
-    var town: String = ""
-    var countries = arrayOf<String>("Paris", "New-York", "London", "Bangkok", "Singapore",
+    private var town: String = ""
+    private var countries = arrayOf("Paris", "New-York", "London", "Bangkok", "Singapore",
         "Dubai", "Phuket", "Rome", "Tokyo", "Istanbul", "Seoul", "Prague", "Mecca", "Miami",
         "Mumbai", "Barcelona", "Moscow", "Budapest", "Melbourne", "Mexico", "Washington", "Nice",
         "Frankfurt", "Warsaw", "Krakow", "Orlando")
@@ -23,7 +23,7 @@ class LocationActivity : AppCompatActivity() {
         binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         Log.d("hours", date.toString())
         when (date) {
             0,1,2,3,4,5,6 -> binding.locactivity.setBackgroundResource(R.drawable.evening_forest)
@@ -32,7 +32,7 @@ class LocationActivity : AppCompatActivity() {
             19,20,21,22,23 -> binding.locactivity.setBackgroundResource(R.drawable.night_forest)
         }
 
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, countries)
         binding.choiceTown.setAdapter(adapter)
 
 
@@ -49,8 +49,8 @@ class LocationActivity : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
         val menuHome = menu!!.findItem(R.id.homeMenu)
-        val switchActivity = Intent(LocationActivity@this,MainActivity::class.java)
-        menuHome.setIntent(switchActivity)
+        val switchActivity = Intent(this,MainActivity::class.java)
+        menuHome.intent = switchActivity
         return super.onCreateOptionsMenu(menu)
     }
 }
