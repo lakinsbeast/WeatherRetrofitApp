@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var viewModelWeather: WeatherViewModel
     private lateinit var viewModelGeo: GeoViewModel
 
+
     var name: String = ""
     var updatedInfo: Boolean = false
     private var getdata: String = ""
@@ -51,6 +52,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Погодное приложение"
+
 
         //Location
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
@@ -58,11 +62,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         //
 
         binding.mainactivity.setOnRefreshListener {
+            fetchLocation()
             if (updatedInfo) {
                 viewModelWeather.initWeather()
                 Log.d("update", "setonrefreshlistener заработал")
             } else {
-                Toast.makeText(this, "Выбери город через меню", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, "Выбери город через меню", Toast.LENGTH_LONG).show()
             }
             binding.mainactivity.isRefreshing = false
 
@@ -131,6 +136,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     }
+
     private fun fetchLocation() {
         if (checkPermissions())
         {
@@ -148,22 +154,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     return
                 }
                 fusedLocationProvider?.lastLocation?.addOnCompleteListener(this){ task ->
-                    val location: android.location.Location? =task.result
+                    val location: android.location.Location? = task.result
                     if (location == null) {
-                        Toast.makeText(this, "Null received", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Не удалось определить местоположение", Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(this, "Get success", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Местоположение определено успешно", Toast.LENGTH_LONG).show()
 
                         viewModelGeo.latit.value = location.latitude.toString()
                         viewModelGeo.longt.value = location.longitude.toString()
-                        binding.lat.text = viewModelGeo.latit.value.toString()
-                        binding.longt.text = viewModelGeo.longt.value.toString()
                         viewModelGeo.initGeo()
                         viewModelGeo.town.observe(this) {
                             if(viewModelWeather.town.value != null) {
                                 viewModelWeather.town.value = it
                                 viewModelWeather.initWeather()
-                                Log.d("fuck", viewModelGeo.town.value.toString())
+                                Log.d("город", viewModelGeo.town.value.toString())
                             }
 
                         }
@@ -171,7 +175,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 }
             } else {
-                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Включите местоположение", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
@@ -238,5 +242,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map
-}
+    }
 }

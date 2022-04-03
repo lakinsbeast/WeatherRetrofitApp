@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +8,8 @@
     tools:context=".MainActivity"
     android:background="@drawable/backgr1"
     android:id="@+id/mainactivity">
+    
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,11 +23,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/black"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+        </androidx.appcompat.widget.Toolbar>
+
         <TextView
             android:id="@+id/lastUpdateTitle"
             android:layout_width="412dp"
             android:layout_height="47dp"
             android:layout_marginEnd="1dp"
+            android:layout_marginBottom="4dp"
             android:background="#6A6A6A"
             android:gravity="center"
             android:maxLines="2"
@@ -35,14 +51,31 @@
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/townTitle"
+            android:layout_width="424dp"
+            android:layout_height="203dp"
+            android:layout_marginTop="56dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/Temp_c"
             android:layout_width="200dp"
             android:layout_height="61dp"
-            android:layout_marginStart="104dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="28dp"
             android:text="NOTEXT"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
@@ -57,7 +90,7 @@
             android:layout_width="156dp"
             android:layout_height="51dp"
             android:layout_marginStart="127dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="128dp"
             android:maxLines="2"
             android:textAlignment="center"
@@ -65,6 +98,7 @@
             android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Temp_c" />
 
@@ -73,7 +107,7 @@
             android:layout_width="336dp"
             android:layout_height="77dp"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="44dp"
             android:layout_marginEnd="41dp"
             android:text="Text"
             android:textAlignment="center"
@@ -84,47 +118,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/feelslikeTitle" />
-
-        <TextView
-            android:id="@+id/townTitle"
-            android:gravity="center"
-            android:layout_width="425dp"
-            android:layout_height="142dp"
-            android:layout_marginTop="32dp"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/lat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
-            android:layout_marginBottom="224dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/lastUpdateTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <TextView
-            android:id="@+id/longt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="172dp"
-            android:layout_marginBottom="180dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

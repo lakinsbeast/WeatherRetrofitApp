@@ -7,22 +7,29 @@
     tools:context=".LocationActivity"
     android:id="@+id/locactivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        app:titleTextColor="@color/black"
+        android:background="@color/white">
+    </androidx.appcompat.widget.Toolbar>
+
     <Button
         android:id="@+id/initTown"
         android:layout_width="146dp"
         android:layout_height="54dp"
-        android:layout_marginTop="136dp"
-        android:text="Save
-"
+        android:layout_marginTop="316dp"
+        android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/choice_town"
-        android:layout_width="407dp"
-        android:layout_height="56dp"
+        android:layout_width="415dp"
+        android:layout_height="59dp"
         android:autoText="false"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
@@ -31,6 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/initTown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.861" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

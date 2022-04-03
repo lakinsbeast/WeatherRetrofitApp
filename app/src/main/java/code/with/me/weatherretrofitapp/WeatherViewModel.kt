@@ -58,7 +58,7 @@ class WeatherViewModel(private val repo: WeatherRepository) : ViewModel() {
                     } else {
                         Log.d("viewModelTown", town.toString())
                         Log.d("response", response.errorBody().toString())
-                        town.value = "Выбери город через меню"
+                        town.value = "Выбери город через меню или свайпни вниз, если дал разрешение не местоположение"
                     }
                 }
 

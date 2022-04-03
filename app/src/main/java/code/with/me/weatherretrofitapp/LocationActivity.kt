@@ -22,6 +22,9 @@ class LocationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Погодное приложение"
+
 
         val date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         Log.d("hours", date.toString())
