@@ -1,4 +1,4 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.Repositories
 
 import code.with.me.weatherretrofitapp.Services.WeatherService
 

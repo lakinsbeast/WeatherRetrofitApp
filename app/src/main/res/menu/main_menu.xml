@@ -2,18 +2,30 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/overflowMenu"
+        android:id="@+id/moonMode"
         android:title=""
-        android:icon="@drawable/settings"
+        android:icon="@drawable/moon"
         app:showAsAction="always">
-        <menu>
-            <item
-                android:title="@string/home"
-                android:id="@+id/homeMenu"/>
-            <item
-                android:title="@string/location"
-                android:id="@+id/locationMenu"/>
-        </menu>
     </item>
+    <item
+        android:id="@+id/gpsMenu"
+        android:title=""
+        android:icon="@drawable/location"
+        app:showAsAction="always">
+    </item>
+<!--    <item-->
+<!--        android:id="@+id/overflowMenu"-->
+<!--        android:title=""-->
+<!--        android:icon="@drawable/settings"-->
+<!--        app:showAsAction="always">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:title="@string/home"-->
+<!--                android:id="@+id/homeMenu"/>-->
+<!--            <item-->
+<!--                android:title="@string/location"-->
+<!--                android:id="@+id/locationMenu"/>-->
+<!--        </menu>-->
+<!--    </item>-->
 
 </menu>

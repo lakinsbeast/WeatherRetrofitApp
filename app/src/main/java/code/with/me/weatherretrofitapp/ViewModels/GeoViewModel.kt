@@ -1,8 +1,9 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.ViewModels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import code.with.me.weatherretrofitapp.Repositories.GeoRepository
 import code.with.me.weatherretrofitapp.Items.GeoItem
 import retrofit2.Call
 import retrofit2.Callback

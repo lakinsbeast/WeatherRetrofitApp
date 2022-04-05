@@ -1,7 +1,8 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.ViewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import code.with.me.weatherretrofitapp.Repositories.WeatherRepository
 
 class WeatherViewModelFactory(private val repo: WeatherRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,9 +1,10 @@
-package code.with.me.weatherretrofitapp
+package code.with.me.weatherretrofitapp.ViewModels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import code.with.me.weatherretrofitapp.Items.WeatherItem
+import code.with.me.weatherretrofitapp.Repositories.WeatherRepository
 import kotlinx.coroutines.Job
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,7 +59,7 @@ class WeatherViewModel(private val repo: WeatherRepository) : ViewModel() {
                     } else {
                         Log.d("viewModelTown", town.toString())
                         Log.d("response", response.errorBody().toString())
-                        town.value = "Выбери город через меню или свайпни вниз, если дал разрешение не местоположение"
+                        town.value = "Не выбран город"
                     }
                 }
 

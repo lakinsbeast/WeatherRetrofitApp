@@ -16,6 +16,7 @@
         android:theme="@style/Theme.WeatherRetrofitApp">
         <activity
             android:name=".LocationActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

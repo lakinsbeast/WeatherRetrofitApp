@@ -5,40 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LocationActivity"
-    android:id="@+id/locactivity">
+    android:id="@+id/locactivity"
+    android:background="@color/black">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        app:titleTextColor="@color/black"
-        android:background="@color/white">
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/black">
+
+                <TextView
+                    android:id="@+id/ToolbarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Погодное приложение"
+                    android:textColor="@color/black" />
+<!--                <EditText-->
+<!--                    android:id="@+id/locEditText"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:minHeight="48dp"-->
+<!--                    tools:layout_editor_absoluteX="16dp"-->
+<!--                    tools:layout_editor_absoluteY="5dp"-->
+<!--                    />-->
     </androidx.appcompat.widget.Toolbar>
 
     <Button
         android:id="@+id/initTown"
         android:layout_width="146dp"
         android:layout_height="54dp"
-        android:layout_marginTop="316dp"
-        android:text="Save"
+        android:text="Сохранить"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/choice_town" />
 
     <AutoCompleteTextView
         android:id="@+id/choice_town"
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="59dp"
+        android:layout_marginTop="16dp"
         android:autoText="false"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
-        android:hint="Select a country"
+        android:hint="Город"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/initTown"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.861" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

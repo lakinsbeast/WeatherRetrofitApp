@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.graphics.Color
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -13,18 +15,24 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import code.with.me.weatherretrofitapp.Items.Location
+import code.with.me.weatherretrofitapp.Repositories.GeoRepository
+import code.with.me.weatherretrofitapp.Repositories.WeatherRepository
 import code.with.me.weatherretrofitapp.Services.GeoService
 import code.with.me.weatherretrofitapp.Services.WeatherService
+import code.with.me.weatherretrofitapp.ViewModels.GeoViewModel
+import code.with.me.weatherretrofitapp.ViewModels.GeoViewModelFactory
+import code.with.me.weatherretrofitapp.ViewModels.WeatherViewModel
+import code.with.me.weatherretrofitapp.ViewModels.WeatherViewModelFactory
 import code.with.me.weatherretrofitapp.databinding.ActivityMainBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import java.util.*
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMainBinding
@@ -33,8 +41,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var viewModelGeo: GeoViewModel
 
 
+
     var name: String = ""
-    var updatedInfo: Boolean = false
+    private var updatedInfo: Boolean = false
     private var getdata: String = ""
 
     private val weatherService = WeatherService.create()
@@ -43,8 +52,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val geoRepository = GeoRepository(geoString)
 
     private var map: GoogleMap? = null
-    var currentLocation: Location? = null
-    var fusedLocationProvider: FusedLocationProviderClient? = null
+    private var currentLocation: Location? = null
+    private var fusedLocationProvider: FusedLocationProviderClient? = null
 
 
     @SuppressLint("SetTextI18n")
@@ -53,19 +62,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Погодное приложение"
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
-
-        //Location
         fusedLocationProvider = LocationServices.getFusedLocationProviderClient(this)
         fetchLocation()
-        //
 
         binding.mainactivity.setOnRefreshListener {
             fetchLocation()
             if (updatedInfo) {
                 viewModelWeather.initWeather()
-                Log.d("update", "setonrefreshlistener заработал")
             } else {
 //                Toast.makeText(this, "Выбери город через меню", Toast.LENGTH_LONG).show()
             }
@@ -74,32 +79,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         viewModelWeather = ViewModelProvider(this,
-            WeatherViewModelFactory(weatherRepository)).get(WeatherViewModel::class.java)
+            WeatherViewModelFactory(weatherRepository)
+        )[WeatherViewModel::class.java]
         viewModelGeo = ViewModelProvider(this,
-            GeoViewModelFactory(geoRepository)).get(GeoViewModel::class.java)
+            GeoViewModelFactory(geoRepository)
+        )[GeoViewModel::class.java]
 
 
-        val date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        Log.d("hours", date.toString())
-        when (date) {
-            0,1,2,3,4,5,6 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
-            7,8,9,10,11,12 -> binding.mainactivity.setBackgroundResource(R.drawable.day_forest)
-            13,14,15,16,17,18 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
-            19,20,21,22,23 -> binding.mainactivity.setBackgroundResource(R.drawable.night_forest)
-        }
 
-        Log.d("town.value", viewModelWeather.town.value.toString())
         viewModelWeather.town.observe(this) {
             binding.apply {
                 TempC.isVisible = false
                 TextTitle.isVisible = false
                 lastUpdateTitle.isVisible = false
-//                ImageTitle.isVisible = false
                 townTitle.text = viewModelWeather.town.value
-
-
+                if(viewModelWeather.town.value != null) {
+                    ToolbarText.text = viewModelWeather.town.value
+                }
                 viewModelWeather.tempC.observe(this@MainActivity) { temp_c ->
-                    binding.TempC.text = "$temp_c℃"
+                    TempC.text = "$temp_c°"
                     TempC.isVisible = true
                     if (TempC.isVisible) {
                         updatedInfo = true
@@ -108,24 +106,18 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 }
                 viewModelWeather.textTitle.observe(this@MainActivity) { textTitle ->
-                    binding.TextTitle.text = textTitle.toString()
+                    TextTitle.text = textTitle.toString()
                     TextTitle.isVisible = true
                 }
                 viewModelWeather.lastUpdateTitleData.observe(this@MainActivity) { lastUpdateTitlee ->
-                    binding.lastUpdateTitle.text =
+                    lastUpdateTitle.text =
                         ("Последнее обновление погоды:\n$lastUpdateTitlee")
                     lastUpdateTitle.isVisible = true
                 }
                 viewModelWeather.feelsLikeTitle.observe(this@MainActivity) { feelsLikeTitle ->
-                    binding.feelslikeTitle.text = ("По ощущениям:\n$feelsLikeTitle℃")
+                    feelslikeTitle.text = ("По ощущениям:$feelsLikeTitle℃")
                     feelslikeTitle.isVisible = true
                 }
-                //выпилил, потому что иконки были маленького размера
-//                viewModel.urlImage.observe(this@MainActivity, Observer { urlImage ->
-//                    binding.ImageTitle.isVisible = true
-//                    val imageUrl = ("https:$urlImage")
-//                    Picasso.get().load(imageUrl).into(binding.ImageTitle)
-//                })
             }
 
         }
@@ -133,9 +125,17 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModelWeather.town.value = getdata
         Log.d("MainActivity", viewModelWeather.town.value.toString())
         viewModelWeather.initWeather()
-
-
     }
+//    private fun dateDefinition() {
+//        val date = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+//        Log.d("hours", date.toString())
+//        when (date) {
+//            0,1,2,3,4,5,6 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
+//            7,8,9,10,11,12 -> binding.mainactivity.setBackgroundResource(R.drawable.day_forest)
+//            13,14,15,16,17,18 -> binding.mainactivity.setBackgroundResource(R.drawable.evening_forest)
+//            19,20,21,22,23 -> binding.mainactivity.setBackgroundResource(R.drawable.night_forest)
+//        }
+//    }
 
     private fun fetchLocation() {
         if (checkPermissions())
@@ -192,16 +192,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION),
-        PERMISSION_REQUEST_ACCESS_LOCATION
-        )
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMISSION_REQUEST_ACCESS_LOCATION)
     }
 
     private fun checkPermissions(): Boolean {
-        if(ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             ==PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
         {
@@ -210,11 +206,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         return false
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == PERMISSION_REQUEST_ACCESS_LOCATION) {
             if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
@@ -230,13 +222,51 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val PERMISSION_REQUEST_ACCESS_LOCATION=100
     }
 
-    //Меню
+
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
-        val menuLocation = menu!!.findItem(R.id.locationMenu)
-        val switchActivity = Intent(this, LocationActivity::class.java)
-        menuLocation.intent = switchActivity
+
+        val nightMode = menu?.findItem(R.id.moonMode)
+        val locationBtn = menu?.findItem(R.id.gpsMenu)
+
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+        nightMode?.setOnMenuItemClickListener { //включает темный режим
+            when(it.itemId) {
+                R.id.moonMode -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            true
+        }
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                Log.d("lightdark", "сработала светлая тема")
+                binding.apply {
+                    mainactivity.setBackgroundColor(Color.WHITE)
+                    townTitle.setTextColor(Color.BLACK)
+                    TempC.setTextColor(Color.BLACK)
+                    feelslikeTitle.setTextColor(Color.BLACK)
+                    lastUpdateTitle.setBackgroundColor(Color.BLACK)
+                    TextTitle.setTextColor(Color.BLACK)
+                }
+            } //light theme
+            Configuration.UI_MODE_NIGHT_YES -> {
+                Log.d("lightdark", "сработала темная тема")
+                nightMode?.isVisible = false
+                binding.apply {
+                    mainactivity.setBackgroundColor(Color.BLACK)
+                    townTitle.setTextColor(Color.WHITE)
+                    TempC.setTextColor(Color.WHITE)
+                    feelslikeTitle.setTextColor(Color.WHITE)
+                    lastUpdateTitle.setBackgroundColor(Color.WHITE)
+                    lastUpdateTitle.setTextColor(Color.BLACK)
+                    TextTitle.setTextColor(Color.WHITE)
+                }
+            } //dark theme
+        }
+        val locationActivity = Intent(this, LocationActivity::class.java)
+        locationBtn?.intent = locationActivity
         return super.onCreateOptionsMenu(menu)
     }
 
