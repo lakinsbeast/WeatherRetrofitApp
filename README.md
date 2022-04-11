@@ -15,3 +15,5 @@ USED:
    <li>autocompletetextview (array with 2000+ cities)</li>
   </ul>
 </h1>
+
+<h1 align="center">собираюсь добавить сохранение настроек, после исправления багов</h1>
